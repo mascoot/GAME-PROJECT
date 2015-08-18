@@ -81,4 +81,31 @@ Vector3D operator*(float, const Vector3D&);
 
 std::ostream& operator<<(std::ostream&, const Vector3D&);
 
+typedef union Matrix4D
+{
+  struct
+  {
+    float
+      m00, m01, m02, m03,
+      m10, m11, m12, m13,
+      m20, m21, m22, m23,
+      m30, m31, m32, m33;
+  };
+
+  float m[16];
+
+  Matrix4D();
+
+  Matrix4D SetTranslate(const Vector3D&);
+  Matrix4D SetTranslate(const Vector2D&);
+  Matrix4D SetTranslate(float, float, float = 0.0f);
+  
+  Matrix4D SetScale(const Vector3D&);
+  Matrix4D SetScale(const Vector2D&);
+  Matrix4D SetScale(float);
+  Matrix4D SetRotation();
+
+  Matrix4D operator*(const Matrix4D&);
+} Mat4D;
+
 #endif

@@ -8,6 +8,7 @@ class RenderManager
 {
   GLuint vertexbuffer;  // This will identify our vertex buffer
   GLuint indicesbuffer;
+  GLuint uvbuffer;
 
   std::vector<unsigned int> indices;
 

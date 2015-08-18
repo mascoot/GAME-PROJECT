@@ -197,3 +197,30 @@ std::ostream& operator<<(std::ostream& os, const Vector3D& rhs)
   os << "< " << rhs.x << " : " << rhs.y << " : " << rhs.z << " >";
   return os;
 }
+
+
+Matrix4D::Matrix4D()
+{
+  //Creates an identity matrix
+  for (int i = 0; i < 16; ++i) m[i] = 0;
+  m00 = m11 = m22 = m33 = 1;
+}
+
+Matrix4D Matrix4D::SetTranslate(float x, float y, float z)
+{
+  Matrix4D temp;
+  temp.m03 = x; temp.m13 = y; temp.m23 = z;
+  return temp;
+}
+
+Matrix4D Matrix4D::SetScale(float rhs)
+{
+  Matrix4D temp;
+  temp.m00 = temp.m11 = temp.m22 = rhs;
+  return temp;
+}
+
+Matrix4D Matrix4D::operator*(const Matrix4D& rhs)
+{
+  return Matrix4D();
+}
