@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "gl/gl3w.h"
 #include "GLWrapper.h"
+#include "Shader.h"
 
 class RenderManager
 {
@@ -14,6 +15,9 @@ class RenderManager
   std::vector<unsigned int> indices;
 
   std::vector<RenderComponent*> rComps;
+  ShaderProgram *gProgram;
+
+  void LoadShaders();
 public:
 
   RenderManager();

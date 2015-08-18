@@ -202,7 +202,9 @@ std::ostream& operator<<(std::ostream& os, const Vector3D& rhs)
 Matrix4D::Matrix4D()
 {
   //Creates an identity matrix
-  for (int i = 0; i < 16; ++i) m[i] = 0;
+  for (int i = 0; i < 4; ++i)
+    for (int y = 0; y < 4; ++y)
+      m[i][y] = 0;
   m00 = m11 = m22 = m33 = 1;
 }
 
@@ -246,19 +248,20 @@ Matrix4D Matrix4D::operator*(const Matrix4D& rhs)
   for (int x = 0; x < 16; ++x)
   {
     float sum = 0;
+    int t = x % 4;
     for (int y = 0; y < 4; ++y)
-      sum += m[x - (x % 4) + y] * rhs.m[x + (y * 4)];
-    temp.m[x] = sum;
+      sum += m[x - t][y] * rhs.m[y][t];
+    temp.m[(x - t) / 4][t] = sum;
   }
   return temp;
 }
 
 Matrix4D Matrix4D::SetRotationX(float angle)
 {
-  // [1 0             0               0]
+  // [1 0            0              0]
   // [0 cos(X Angle) - sin(X Angle) 0]
   // [0 sin(X Angle) cos(X Angle)   0]
-  // [0 0             0               1]
+  // [0 0            0              1]
   Matrix4D temp;
   temp.m11 = cos(angle);
   temp.m12 = -sin(angle);
@@ -269,9 +272,9 @@ Matrix4D Matrix4D::SetRotationX(float angle)
 Matrix4D Matrix4D::SetRotationY(float angle)
 {
   //[cos(Y Angle)  0 sin(Y Angle) 0]
-  //[0              1 0             0]
+  //[0             1 0            0]
   //[-sin(Y Angle) 0 cos(Y Angle) 0]
-  //[0              0 0             1]
+  //[0             0 0            1]
   Matrix4D temp;
   temp.m00 = cos(angle);
   temp.m02 = sin(angle);
@@ -283,8 +286,8 @@ Matrix4D Matrix4D::SetRotationZ(float angle)
 {
   //[cos(Z Angle) - sin(Z Angle) 0 0]
   //[sin(Z Angle) cos(Z Angle)   0 0]
-  //[0             0               1 0]
-  //[0             0               0 1]
+  //[0            0              1 0]
+  //[0            0              0 1]
   Matrix4D temp;
   temp.m00 = cos(angle);
   temp.m01 = -sin(angle);

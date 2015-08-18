@@ -28,6 +28,29 @@ RenderManager::RenderManager()
   glGenBuffers(1, &indicesbuffer);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicesbuffer);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+
+  LoadShaders();
+}
+
+void RenderManager::LoadShaders()
+{
+  std::vector<Shader> shaders;
+  shaders.reserve(2);
+  shaders.push_back(Shader::LoadShader("./shaders/shader.vs", GL_VERTEX_SHADER));
+  shaders.push_back(Shader::LoadShader("./shaders/shader.fs", GL_FRAGMENT_SHADER));
+  gProgram = new ShaderProgram(shaders);
+
+  gProgram->BindShader();
+  //set the "projection" uniform in the vertex shader, because it's not going to change
+  //Mat4D projection = Mat4D::SetPerspective(glm::radians(50.0f), SCREEN_SIZE.x / SCREEN_SIZE.y, 0.1f, 10.0f);
+  
+  //gProgram->setUniform("projection", projection);
+
+  //set the "camera" uniform in the vertex shader, because it's also not going to change
+  //glm::mat4 camera = glm::lookAt(glm::vec3(3, 3, 3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+  //gProgram->setUniform("camera", camera);
+
+  gProgram->UnbindShader();
 }
 
 RenderManager::~RenderManager()
@@ -51,6 +74,7 @@ void RenderManager::Update()
 
   //for (auto elem : rComps)
   {
+
     //Enable Vertices
     glEnableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);

@@ -89,6 +89,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MathExt.cpp" />
     <ClCompile Include="RenderManager.cpp" />
+    <ClCompile Include="Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseComponents.h" />
@@ -99,6 +100,7 @@
     <ClInclude Include="MathExt.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Shader.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CoreProfile.rc" />

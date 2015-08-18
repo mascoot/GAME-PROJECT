@@ -92,7 +92,7 @@ typedef union Matrix4D
       m30, m31, m32, m33;
   };
 
-  float m[16];
+  float m[4][4];
 
   Matrix4D();
 
