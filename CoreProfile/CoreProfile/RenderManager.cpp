@@ -3,11 +3,10 @@
 RenderManager::RenderManager()
 {
   GLfloat quad[] = {
-    -1.0f, -1.0f, 0.0f,
-    1.0f, -1.0f, 0.0f,
-    1.0f, 1.0f, 0.0f,
-    //-1.0f, 1.0f, 0.0f
-  };
+    -1.0f, -1.0f, 
+    1.0f, -1.0f, 
+    1.0f, 1.0f, 
+    -1.0f, 1.0f,   };
   // Generate 1 buffer, put the resulting identifier in vertexbuffer
   glGenBuffers(1, &vertexbuffer);
   glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
@@ -15,7 +14,7 @@ RenderManager::RenderManager()
   // Give our vertices to OpenGL.
   glBufferData(GL_ARRAY_BUFFER, sizeof(quad), quad, GL_STATIC_DRAW);
 
-  indices = { 0, 1, 2, 0, 2, 3 };
+  indices = { 1, 2, 0, 3 };
 
   glGenBuffers(1, &indicesbuffer);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicesbuffer);
@@ -46,7 +45,7 @@ void RenderManager::Update()
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
     glVertexAttribPointer(
       0,                  // attribute
-      3,                  // size
+      2,                  // size
       GL_FLOAT,           // type
       GL_FALSE,           // normalized?
       0,                  // stride
@@ -58,7 +57,7 @@ void RenderManager::Update()
 
     // Draw the triangles !
     glDrawElements(
-      GL_TRIANGLES,      // mode
+      GL_TRIANGLE_STRIP,      // mode
       indices.size(),    // count
       GL_UNSIGNED_INT,   // type
       (void*)0           // element array buffer offset
