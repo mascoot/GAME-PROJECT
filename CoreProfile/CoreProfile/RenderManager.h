@@ -6,6 +6,11 @@
 
 class RenderManager
 {
+  GLuint vertexbuffer;  // This will identify our vertex buffer
+  GLuint indicesbuffer;
+
+  std::vector<unsigned int> indices;
+
   std::vector<RenderComponent*> rComps;
 public:
   RenderManager();

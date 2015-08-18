@@ -5,8 +5,6 @@
 bool      isDone = false;
 bool      minimized = false;     // true if window is minimized
 
-GLWrapper glWrap;
-GameEngine engine;
 
 /******************************** Prototypes ********************************/
 
@@ -41,46 +39,47 @@ Control how the window is to be shown (HIDDEN/MINIMIZED/MAXIMIZED/...)
 /******************************************************************************/
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
-    // By default WinAPI program turns off the console. But we turn it on again for debugging purpose.
-    AllocConsole();
-    freopen("CONOUT$", "w", stdout);
+  GLWrapper glWrap;
+  // By default WinAPI program turns off the console. But we turn it on again for debugging purpose.
+  AllocConsole();
+  freopen("CONOUT$", "w", stdout);
 
-    // if the window is set up correctly, we can proceed with the message loop
-    if (glWrap.CreateGLWindow("GLFramework!",WndProc))
-        isDone = false;
-    else
-      isDone = true;
+  // if the window is set up correctly, we can proceed with the message loop
+  if (glWrap.CreateGLWindow("GLFramework!", WndProc))
+    isDone = false;
+  else
+    isDone = true;
 
-    MSG   msg;       // message
-    InputManager inputman;
+  MSG   msg;       // message
+  InputManager inputman;
 
-    // main message loop
-    while (!isDone)
+  // main message loop
+  while (!isDone)
+  {
+    if (PeekMessage(&msg, NULL, NULL, NULL, PM_REMOVE))
     {
-      if (PeekMessage(&msg, NULL, NULL, NULL, PM_REMOVE))
+      if (msg.message == WM_QUIT)   // do we receive a WM_QUIT message?
+        isDone = true;              // if so, time to quit the application
+      else
       {
-        if (msg.message == WM_QUIT)   // do we receive a WM_QUIT message?
-          isDone = true;              // if so, time to quit the application
-        else
-        {
-          TranslateMessage(&msg);     // translate and dispatch to event queue
-          DispatchMessage(&msg);
-        }
-      }
-
-      // don't update the scene if the app is minimized
-      if (!minimized)
-      {
-        engine.Update();
-        //Check for keyboard input
-        if (inputman.KeyPressed(VK_ESCAPE)) isDone = true;
-
-        engine.Render();
-        // switch the front and back buffers to display the updated scene faster
-        SwapBuffers(glWrap.GetDeviceContext());
+        TranslateMessage(&msg);     // translate and dispatch to event queue
+        DispatchMessage(&msg);
       }
     }
-    return msg.wParam;
+    GameEngine engine;
+    // don't update the scene if the app is minimized
+    if (!minimized)
+    {
+      engine.Update();
+      //Check for keyboard input
+      if (inputman.KeyPressed(VK_ESCAPE)) isDone = true;
+
+      engine.Render();
+      // switch the front and back buffers to display the updated scene faster
+      SwapBuffers(glWrap.GetDeviceContext());
+    }
+  }
+  return msg.wParam;
 }
 
 /******************************************************************************/

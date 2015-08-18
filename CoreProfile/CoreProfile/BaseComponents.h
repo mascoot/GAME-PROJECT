@@ -13,7 +13,8 @@ struct IComponent
 struct RenderComponent : public IComponent
 {
   unsigned int type;
-  std::vector<Vec2> mesh;
+  std::vector<float> mesh;
+  int shaderID;
 
   //std::vector<std::string> textures;
   //std::vector<std::string> shaders;
