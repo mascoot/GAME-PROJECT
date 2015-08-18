@@ -41,6 +41,7 @@ Vector2D operator*(float,const Vector2D&);
 
 std::ostream& operator<<(std::ostream&, const Vector2D&);
 
+
 typedef union Vector3D
 {
   struct
@@ -57,8 +58,26 @@ typedef union Vector3D
 
   Vector3D& operator=(const Vector3D&);
 
+  Vector3D operator+(const Vector3D&);
+  Vector3D operator-(const Vector3D&);
+  Vector3D operator/(float);
+
+  Vector3D& operator+=(const Vector3D&);
+  Vector3D& operator-=(const Vector3D&);
+  Vector3D& operator/=(float);
+  Vector3D& operator*=(float);
+
+  Vector3D Normalize();
+
+  float Magnitude() const;
+  float MagnitudeSq() const;
+  float Dot(const Vector3D&) const;
+
   Vector3D Cross(const Vector3D&);
 } Vec3;
+
+Vector3D operator*(const Vector3D&, float);
+Vector3D operator*(float, const Vector3D&);
 
 std::ostream& operator<<(std::ostream&, const Vector3D&);
 

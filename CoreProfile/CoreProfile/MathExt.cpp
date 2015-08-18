@@ -85,12 +85,12 @@ float Vector2D::GetAngle(const Vector2D& rhs) const
 
 Vector2D operator*(const Vector2D& lhs, float rhs)
 {
-  return Vector2D(lhs.x / rhs, lhs.y / rhs);
+  return Vector2D(lhs.x * rhs, lhs.y * rhs);
 }
 
 Vector2D operator*(float lhs, const Vector2D& rhs)
 {
-  return Vector2D(rhs.x / lhs, rhs.y / lhs);
+  return Vector2D(rhs.x * lhs, rhs.y * lhs);
 }
 
 std::ostream& operator<<(std::ostream& os, const Vector2D& rhs)
@@ -114,6 +114,77 @@ Vector3D& Vector3D::operator = (const Vector3D& rhs)
 {
   x = rhs.x; y = rhs.y; z = rhs.z;
   return *this;
+}
+
+Vector3D Vector3D::operator+(const Vector3D& rhs)
+{
+  return Vector3D(x + rhs.x, y + rhs.y, z + rhs.z);
+}
+
+Vector3D Vector3D::operator-(const Vector3D& rhs)
+{
+  return Vector3D(x - rhs.x, y - rhs.y, x - rhs.z);
+}
+
+Vector3D Vector3D::operator/(float rhs)
+{
+  return Vector3D(x / rhs, y / rhs, z / rhs);
+}
+
+Vector3D& Vector3D::operator+=(const Vector3D& rhs)
+{
+  x += rhs.x; y += rhs.y; z += rhs.z;
+  return *this;
+}
+
+Vector3D& Vector3D::operator-=(const Vector3D& rhs)
+{
+  x -= rhs.x; y -= rhs.y; z -= rhs.z;
+  return *this;
+}
+
+Vector3D& Vector3D::operator/=(float rhs)
+{
+  x /= rhs; y /= rhs; z /= rhs;
+  return *this;
+}
+
+Vector3D& Vector3D::operator*=(float rhs)
+{
+  x *= rhs; y *= rhs; z *= rhs;
+  return *this;
+}
+
+Vector3D Vector3D::Normalize()
+{
+  float mag = Magnitude();
+  return Vector3D(x / mag, y / mag, z / mag);
+}
+
+float Vector3D::Magnitude() const
+{
+  return sqrt(MagnitudeSq());
+}
+
+float Vector3D::MagnitudeSq() const
+{
+  return x*x + y*y + z*z;
+}
+
+//Returns the length of the projected vector
+float Vector3D::Dot(const Vector3D& rhs) const
+{
+  return x*rhs.x + y*rhs.y + z*rhs.z;
+}
+
+Vector3D operator*(const Vector3D& lhs, float rhs)
+{
+  return Vector3D(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs);
+}
+
+Vector3D operator*(float lhs, const Vector3D& rhs)
+{
+  return Vector3D(rhs.x * lhs, rhs.y * lhs, rhs.z * lhs);
 }
 
 Vector3D Vector3D::Cross(const Vector3D& r)
