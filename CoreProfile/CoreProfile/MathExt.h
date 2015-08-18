@@ -101,8 +101,9 @@ typedef union Matrix4D
   Matrix4D SetTranslate(float, float, float = 0.0f);
   
   Matrix4D SetScale(const Vector3D&);
-  Matrix4D SetScale(const Vector2D&);
+  Matrix4D SetScale(float, float, float);
   Matrix4D SetScale(float);
+
   Matrix4D SetRotation();
 
   Matrix4D operator*(const Matrix4D&);

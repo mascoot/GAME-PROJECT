@@ -206,6 +206,16 @@ Matrix4D::Matrix4D()
   m00 = m11 = m22 = m33 = 1;
 }
 
+Matrix4D Matrix4D::SetTranslate(const Vector3D& rhs)
+{
+  return SetTranslate(rhs.x, rhs.y, rhs.z);
+}
+
+Matrix4D Matrix4D::SetTranslate(const Vector2D& rhs)
+{
+  return SetTranslate(rhs.x, rhs.y);
+}
+
 Matrix4D Matrix4D::SetTranslate(float x, float y, float z)
 {
   Matrix4D temp;
@@ -213,14 +223,32 @@ Matrix4D Matrix4D::SetTranslate(float x, float y, float z)
   return temp;
 }
 
-Matrix4D Matrix4D::SetScale(float rhs)
+Matrix4D Matrix4D::SetScale(const Vector3D& rhs)
+{
+  return SetScale(rhs.x, rhs.y, rhs.z);
+}
+
+Matrix4D Matrix4D::SetScale(float x, float y, float z)
 {
   Matrix4D temp;
-  temp.m00 = temp.m11 = temp.m22 = rhs;
+  temp.m00 = x; temp.m11 = y; temp.m22 = z;
   return temp;
+}
+
+Matrix4D Matrix4D::SetScale(float rhs)
+{
+  return SetScale(rhs, rhs, rhs);
 }
 
 Matrix4D Matrix4D::operator*(const Matrix4D& rhs)
 {
-  return Matrix4D();
+  Matrix4D temp;
+  for (int x = 0; x < 16; ++x)
+  {
+    float sum = 0;
+    for (int y = 0; y < 4; ++y)
+      sum += m[x - (x % 4) + y] * rhs.m[x + (y * 4)];
+    temp.m[x] = sum;
+  }
+  return temp;
 }
