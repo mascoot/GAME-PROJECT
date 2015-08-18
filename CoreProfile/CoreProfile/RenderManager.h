@@ -3,6 +3,7 @@
 
 #include "GameObject.h"
 #include "gl/gl3w.h"
+#include "GLWrapper.h"
 
 class RenderManager
 {
@@ -14,6 +15,7 @@ class RenderManager
 
   std::vector<RenderComponent*> rComps;
 public:
+
   RenderManager();
   ~RenderManager();
 

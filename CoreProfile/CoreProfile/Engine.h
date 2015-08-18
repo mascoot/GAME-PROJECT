@@ -13,6 +13,10 @@ public:
   GameEngine(){}
   ~GameEngine(){}
 
+  void setup()
+  {
+
+  }
   void Update()
   {
   }

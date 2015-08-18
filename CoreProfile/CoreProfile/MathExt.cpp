@@ -252,3 +252,37 @@ Matrix4D Matrix4D::operator*(const Matrix4D& rhs)
   }
   return temp;
 }
+
+Matrix4D Matrix4D::SetRotationX(float angle)
+{
+  // [1 0             0               0]
+  // [0 cos(X Angle) - sin(X Angle) 0]
+  // [0 sin(X Angle) cos(X Angle)   0]
+  // [0 0             0               1]
+  m11 = cos(angle);
+  m12 = -sin(angle);
+  m21 = sin(angle);
+  m22 = cos(angle);
+}
+Matrix4D Matrix4D::SetRotationY(float angle)
+{
+  //[cos(Y Angle)  0 sin(Y Angle) 0]
+  //[0              1 0             0]
+  //[-sin(Y Angle) 0 cos(Y Angle) 0]
+  //[0              0 0             1]
+  m00 = cos(angle);
+  m02 = sin(angle);
+  m20 = -sin(angle);
+  m22 = cos(angle);
+}
+Matrix4D Matrix4D::SetRotationZ(float angle)
+{
+  //[cos(Z Angle) - sin(Z Angle) 0 0]
+  //[sin(Z Angle) cos(Z Angle)   0 0]
+  //[0             0               1 0]
+  //[0             0               0 1]
+  m00 = cos(angle);
+  m01 = -sin(angle);
+  m10 = sin(angle);
+  m11 = cos(angle);
+}
