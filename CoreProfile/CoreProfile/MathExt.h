@@ -117,4 +117,10 @@ typedef union Matrix4D
 
 } Mat4D;
 
+template <typename T>
+Matrix4D GetPerspective(const T& verticalFov, const T& aspect, const T& zNear, const T& zFar);
+
+template <typename T>
+Matrix4D GetLookAt(const Vector3D& eye, const Vector3D& center, const Vector3D& up);
+
 #endif

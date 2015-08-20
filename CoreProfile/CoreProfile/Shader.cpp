@@ -68,9 +68,8 @@ Shader Shader::LoadShader(const std::string& file, GLenum type)
 {
   std::ifstream f;
   f.open(file.c_str(), std::ios::in | std::ios::binary);
-  if (!f.is_open()){
+  if (!f.is_open())
     throw std::runtime_error(std::string("Failed to open file: ") + file);
-  }
 
   //read whole file into stringstream buffer
   std::stringstream buffer;
@@ -146,6 +145,7 @@ GLint ShaderProgram::GetUniform(const GLchar* name) const
 }
 
 void ShaderProgram::BindShader() const {
+{
   glUseProgram(_object);
 }
 
@@ -155,6 +155,7 @@ void ShaderProgram::UnbindShader() const
 }
 
 bool ShaderProgram::InUse() const {
+{
   GLint currentProgram = 0;
   glGetIntegerv(GL_CURRENT_PROGRAM, &currentProgram);
   return (currentProgram == (GLint)_object);
