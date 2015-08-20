@@ -41,14 +41,15 @@ void RenderManager::LoadShaders()
   gProgram = new ShaderProgram(shaders);
 
   gProgram->BindShader();
-  //set the "projection" uniform in the vertex shader, because it's not going to change
-  //Mat4D projection = Mat4D::SetPerspective(glm::radians(50.0f), SCREEN_SIZE.x / SCREEN_SIZE.y, 0.1f, 10.0f);
-  
-  //gProgram->SetUniform("projection", projection);
 
-  //set the "camera" uniform in the vertex shader, because it's also not going to change
-  //glm::mat4 camera = glm::lookAt(glm::vec3(3, 3, 3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
-  //gProgram->setUniform("camera", camera);
+  Mat4D projectionMat = GetPerspective(DEG2RAD(60.0f), 1280.0f / 720.0f, 0.01f, 100.0f);
+  //gProgram->SetUniform("projection", projectionMat);
+
+  Mat4D cameraMat = GetLookAt(Vec3(5, 5, 5), Vec3(0, 0, 0), Vec3(0, 1, 0));
+  //gProgram->SetUniform("camera", cameraMat);
+
+  Mat4D modelMat;
+  //gProgram->SetUniform("model", modelMat);
 
   gProgram->UnbindShader();
 }
@@ -74,6 +75,7 @@ void RenderManager::Update()
 
   //for (auto elem : rComps)
   {
+    gProgram->BindShader();
 
     //Enable Vertices
     glEnableVertexAttribArray(0);
@@ -88,7 +90,7 @@ void RenderManager::Update()
       );
 
     //Enable UV
-    glEnableVertexAttribArray(1);
+    //glEnableVertexAttribArray(1);
     glBindBuffer(GL_ARRAY_BUFFER, uvbuffer);
     glVertexAttribPointer(
       1,                  // attribute
@@ -110,8 +112,10 @@ void RenderManager::Update()
       (void*)0           // element array buffer offset
       );
 
-    glDisableVertexAttribArray(1);
-    glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1); // Disable UV
+    glDisableVertexAttribArray(0); // Diable Vertices
+
+    gProgram->UnbindShader();
   }
 
   glDisable(GL_MULTISAMPLE);

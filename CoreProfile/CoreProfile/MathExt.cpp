@@ -296,41 +296,24 @@ Matrix4D Matrix4D::SetRotationZ(float angle)
   return temp;
 }
 
-template <typename T>
-Matrix4D GetPerspective(const T& verticalFov, const T& aspect, const T& zNear, const T& zFar)
-{
-  T const rad = fovy;
-
-  T tanHalfVerticalFov = tan(rad / static_cast<T>(2));
-
-  Matrix4D Perspective;
-  Perspective[0][0] = static_cast<T>(1) / (aspect * tanHalfVerticalFov);
-  Perspective[1][1] = static_cast<T>(1) / (tanHalfVerticalFov);
-  Perspective[2][2] = -(zFar + zNear) / (zFar - zNear);
-  Perspective[2][3] = -static_cast<T>(1);
-  Perspective[3][3] = -(static_cast<T>(2) * zFar * zNear) / (zFar - zNear);
-  return Perspective;
-}
-
-template <typename T>
 Matrix4D GetLookAt(const Vector3D& eye, const Vector3D& center, const Vector3D& up)
 {
-  Vector3D f(Vector3D::Normalize(center - eye));
-  Vector3D s(Vector3D::Normalize(Vector3D::Cross(f, up)));
-  Vector3D u(cross(s, f));
+  Vector3D f((Vector3D(center) - Vector3D(eye)).Normalize());
+  Vector3D s((f.Cross(up)).Normalize());
+  Vector3D u(s.Cross(f));
 
   Matrix4D LookAt;
-  LookAt[0][0] = s.x;
-  LookAt[1][0] = s.y;
-  LookAt[2][0] = s.z;
-  LookAt[0][1] = u.x;
-  LookAt[1][1] = u.y;
-  LookAt[2][1] = u.z;
-  LookAt[0][2] = -f.x;
-  LookAt[1][2] = -f.y;
-  LookAt[2][2] = -f.z;
-  LookAt[3][0] = -Vector3D::Dot(s, eye);
-  LookAt[3][1] = -Vector3D::Dot(u, eye);
-  LookAt[3][2] = Vector3D::Dot(f, eye);
+  LookAt.m[0][0] = s.x;
+  LookAt.m[1][0] = s.y;
+  LookAt.m[2][0] = s.z;
+  LookAt.m[0][1] = u.x;
+  LookAt.m[1][1] = u.y;
+  LookAt.m[2][1] = u.z;
+  LookAt.m[0][2] = -f.x;
+  LookAt.m[1][2] = -f.y;
+  LookAt.m[2][2] = -f.z;
+  LookAt.m[3][0] = -s.Dot(eye);
+  LookAt.m[3][1] = -u.Dot(eye);
+  LookAt.m[3][2] = f.Dot(eye);
   return LookAt;
 }

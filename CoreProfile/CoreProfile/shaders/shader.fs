@@ -8,5 +8,6 @@ out vec4 finalColor;
 
 void main() {
     //note: the texture function was called texture2D in older versions of GLSL
-    finalColor = texture(tex, fragTexCoord);
+    //finalColor = texture(tex, fragTexCoord);
+	finalColor = vec4(1,0,0,1);
 }

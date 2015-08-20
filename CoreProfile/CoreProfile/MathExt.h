@@ -4,6 +4,8 @@
 #include <iostream>
 #include <math.h>
 
+#define DEG2RAD(x) x*0.0174532925f
+
 typedef union Vector2D
 {
   struct
@@ -110,15 +112,28 @@ typedef union Matrix4D
 
   Matrix4D operator*(const Matrix4D&);
 
+  //float* operator[](unsigned index);
+
   //static Matrix4D Ortho(float left, float right, float up, float down, float near, float far);
   //static Matrix4D Ortho(float left, float right, float up, float down);
 
 } Mat4D;
 
 template <typename T>
-Matrix4D GetPerspective(const T& verticalFov, const T& aspect, const T& zNear, const T& zFar);
+Matrix4D GetPerspective(const T& verticalFov, const T& aspect, const T& zNear, const T& zFar)
+{
+  T const rad = verticalFov;
 
-template <typename T>
+  T tanHalfVerticalFov = tan(rad / static_cast<T>(2));
+
+  Matrix4D Perspective;
+  Perspective.m[0][0] = static_cast<T>(1) / (aspect * tanHalfVerticalFov);
+  Perspective.m[1][1] = static_cast<T>(1) / (tanHalfVerticalFov);
+  Perspective.m[2][2] = -(zFar + zNear) / (zFar - zNear);
+  Perspective.m[2][3] = -static_cast<T>(1);
+  Perspective.m[3][3] = -(static_cast<T>(2) * zFar * zNear) / (zFar - zNear);
+  return Perspective;
+}
+
 Matrix4D GetLookAt(const Vector3D& eye, const Vector3D& center, const Vector3D& up);
-
 #endif
