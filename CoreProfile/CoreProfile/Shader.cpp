@@ -144,7 +144,7 @@ GLint ShaderProgram::GetUniform(const GLchar* name) const
   return uniform;
 }
 
-void ShaderProgram::BindShader() const {
+void ShaderProgram::BindShader() const 
 {
   glUseProgram(_object);
 }
@@ -154,10 +154,39 @@ void ShaderProgram::UnbindShader() const
   glUseProgram(0);
 }
 
-bool ShaderProgram::InUse() const {
+bool ShaderProgram::InUse() const 
 {
   GLint currentProgram = 0;
   glGetIntegerv(GL_CURRENT_PROGRAM, &currentProgram);
   return (currentProgram == (GLint)_object);
 }
 
+void ShaderProgram::SetAttrib(const GLchar* name, float v)
+{
+  glVertexAttrib1f(GetAttribute(name), v);
+}
+
+void ShaderProgram::SetAttrib(const GLchar* name, const Vector2D& v)
+{
+  glVertexAttrib2fv(GetAttribute(name), v.m);
+}
+
+void ShaderProgram::SetAttrib(const GLchar* name, const Vector3D& v)
+{
+  glVertexAttrib3fv(GetAttribute(name), v.m);
+}
+
+void ShaderProgram::SetUniform(const GLchar* name, const Vector2D& v)
+{
+  glUniform2fv(GetUniform(name), 2, v.m);
+}
+
+void ShaderProgram::SetUniform(const GLchar* name, const Vector3D& v)
+{
+  glUniform3fv(GetUniform(name), 3, v.m);
+}
+
+void ShaderProgram::SetUniform(const GLchar* name, const Matrix4D& mat4, GLboolean transpose)
+{
+  glUniformMatrix4fv(GetUniform(name), 1, transpose, &mat4.m[0][0]);
+}

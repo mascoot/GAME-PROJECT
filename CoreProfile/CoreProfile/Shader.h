@@ -1,6 +1,7 @@
 #include "gl/gl3w.h"
 #include <string>
 #include <vector>
+#include "MathExt.h"
 
 class Shader
 {
@@ -37,6 +38,14 @@ public:
 
   void BindShader() const;
   void UnbindShader() const;
+
+  void SetAttrib(const GLchar*, float);
+  void SetAttrib(const GLchar*, const Vector2D&);
+  void SetAttrib(const GLchar*, const Vector3D&);
+
+  void SetUniform(const GLchar*, const Vector2D&);
+  void SetUniform(const GLchar*, const Vector3D&);
+  void SetUniform(const GLchar*, const Matrix4D&, GLboolean);
 
 private:
   GLuint _object;

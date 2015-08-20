@@ -44,7 +44,7 @@ void RenderManager::LoadShaders()
   //set the "projection" uniform in the vertex shader, because it's not going to change
   //Mat4D projection = Mat4D::SetPerspective(glm::radians(50.0f), SCREEN_SIZE.x / SCREEN_SIZE.y, 0.1f, 10.0f);
   
-  //gProgram->setUniform("projection", projection);
+  //gProgram->SetUniform("projection", projection);
 
   //set the "camera" uniform in the vertex shader, because it's also not going to change
   //glm::mat4 camera = glm::lookAt(glm::vec3(3, 3, 3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));

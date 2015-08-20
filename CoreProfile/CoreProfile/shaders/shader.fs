@@ -1,16 +1,12 @@
 #version 330 core
 
-/*  Uniform variable for user-defined texture */
 uniform sampler2D tex;
 
-/*  Varying variable to receive texture uv coordinate from the previous shader */
-in vec2 texCoord;
+in vec2 fragTexCoord;
 
-/*  Fragment shader always need to have an output variable to indicate the color of the fragment */
-out vec4 color;
+out vec4 finalColor;
 
-void main(void)
-{
-    /*  Color the fragment using the texture image */
-    color = texture(tex, texCoord);
+void main() {
+    //note: the texture function was called texture2D in older versions of GLSL
+    finalColor = texture(tex, fragTexCoord);
 }

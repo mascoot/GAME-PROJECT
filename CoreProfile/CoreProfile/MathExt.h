@@ -110,10 +110,8 @@ typedef union Matrix4D
 
   Matrix4D operator*(const Matrix4D&);
 
-  static Matrix4D LookAt(const Vector3D& eye, const Vector3D& lookat, const Vector3D& up);
-  static Matrix4D Ortho(float left, float right, float up, float down, float near, float far);
-  static Matrix4D Ortho(float left, float right, float up, float down);
-  static Matrix4D Perpestive(float fov, float aspect, float zNear, float zFar);
+  //static Matrix4D Ortho(float left, float right, float up, float down, float near, float far);
+  //static Matrix4D Ortho(float left, float right, float up, float down);
 
 } Mat4D;
 
