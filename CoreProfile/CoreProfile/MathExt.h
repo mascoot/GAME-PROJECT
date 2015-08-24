@@ -21,16 +21,16 @@ typedef union Vector2D
 
   Vector2D& operator=(const Vector2D&);
 
-  Vector2D operator+(const Vector2D&);
-  Vector2D operator-(const Vector2D&);
-  Vector2D operator/(float);
+  Vector2D operator+(const Vector2D&) const;
+  Vector2D operator-(const Vector2D&) const;
+  Vector2D operator/(float) const;
   
   Vector2D& operator+=(const Vector2D&);
   Vector2D& operator-=(const Vector2D&);
   Vector2D& operator/=(float);
   Vector2D& operator*=(float);
 
-  Vector2D Normalize();
+  Vector2D Normalize() const;
   
   float Magnitude() const;
   float MagnitudeSq() const; 

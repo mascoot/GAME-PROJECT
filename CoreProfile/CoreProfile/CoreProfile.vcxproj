@@ -84,6 +84,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="GLWrapper.cpp" />
     <ClCompile Include="KeyBinder.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -93,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseComponents.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="GLWrapper.h" />
     <ClInclude Include="GameObject.h" />

@@ -16,17 +16,17 @@ Vector2D& Vector2D::operator=(const Vector2D& rhs)
   return *this;
 }
 
-Vector2D Vector2D::operator+(const Vector2D& rhs)
+Vector2D Vector2D::operator+(const Vector2D& rhs) const
 {
   return Vector2D(x + rhs.x, y + rhs.y);
 }
 
-Vector2D Vector2D::operator-(const Vector2D& rhs)
+Vector2D Vector2D::operator-(const Vector2D& rhs) const
 {
   return Vector2D(x - rhs.x, y - rhs.y);
 }
 
-Vector2D Vector2D::operator/(float rhs)
+Vector2D Vector2D::operator/(float rhs) const
 {
   return Vector2D(x / rhs, y / rhs);
 }
@@ -55,7 +55,7 @@ Vector2D& Vector2D::operator*=(float rhs)
   return *this;
 }
 
-Vector2D Vector2D::Normalize()
+Vector2D Vector2D::Normalize() const
 {
   float mag = Magnitude();
   return Vector2D(x / mag, y / mag);
