@@ -15,6 +15,4 @@ void main() {
     
     // Apply all matrix transformations to vert
     gl_Position = projection * camera * model * vec4(vert, 1);
-    //gl_Position = camera * model * vec4(vert, 1);
-	//gl_Position = vec4(vert,1);
 }

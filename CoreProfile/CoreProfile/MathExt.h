@@ -133,9 +133,9 @@ Matrix4D GetPerspective(const T& verticalFov, const T& aspect, const T& zNear, c
   Matrix4D Perspective;
   Perspective.m[0][0] = static_cast<T>(1) / (aspect * tanHalfVerticalFov);
   Perspective.m[1][1] = static_cast<T>(1) / (tanHalfVerticalFov);
-  Perspective.m[2][2] = -(zFar + zNear) / (zFar - zNear);
+  Perspective.m[2][2] = -(zFar + zNear) / (zNear - zFar);
   Perspective.m[2][3] = -static_cast<T>(1);
-  Perspective.m[3][3] = -(static_cast<T>(2) * zFar * zNear) / (zFar - zNear);
+  Perspective.m[3][3] = -(static_cast<T>(2) * zFar * zNear) / (zNear - zFar);
   return Perspective;
 }
 

@@ -42,7 +42,8 @@ void RenderManager::LoadShaders()
 
   gProgram->BindShader();
 
-  Mat4D projectionMat = GetPerspective(DEG2RAD(60.0f), 1280.0f / 720.0f, 0.0f, 10000.0f);
+  //Constant Matrix unless there is a change in camera FOV
+  Mat4D projectionMat = GetPerspective(DEG2RAD(60.0f), 1280.0f / 720.0f, 0.001f, 10000.0f);
   gProgram->SetUniform("projection", projectionMat);
 
   Mat4D cameraMat = GetLookAt(Vec3(5,5,5), Vec3(0, 0, 0), Vec3(0, 1, 0));
