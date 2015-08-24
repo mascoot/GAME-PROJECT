@@ -42,14 +42,14 @@ void RenderManager::LoadShaders()
 
   gProgram->BindShader();
 
-  Mat4D projectionMat = GetPerspective(DEG2RAD(60.0f), 1280.0f / 720.0f, 0.01f, 100.0f);
-  //gProgram->SetUniform("projection", projectionMat);
+  Mat4D projectionMat = GetPerspective(DEG2RAD(60.0f), 1280.0f / 720.0f, 0.0f, 10000.0f);
+  gProgram->SetUniform("projection", projectionMat);
 
-  Mat4D cameraMat = GetLookAt(Vec3(5, 5, 5), Vec3(0, 0, 0), Vec3(0, 1, 0));
-  //gProgram->SetUniform("camera", cameraMat);
+  Mat4D cameraMat = GetLookAt(Vec3(5,5,5), Vec3(0, 0, 0), Vec3(0, 1, 0));
+  gProgram->SetUniform("camera", cameraMat);
 
   Mat4D modelMat;
-  //gProgram->SetUniform("model", modelMat);
+  gProgram->SetUniform("model", modelMat);
 
   gProgram->UnbindShader();
 }
@@ -67,8 +67,8 @@ void RenderManager::Update()
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	/*  Culling back-facing triangles for efficiency, but no back faces now */
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
+	//glEnable(GL_CULL_FACE);
+	//glCullFace(GL_BACK);
 
 	/*  Enabling anti-aliasing */
 	glEnable(GL_MULTISAMPLE);

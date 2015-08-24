@@ -83,6 +83,8 @@ Vector3D operator*(float, const Vector3D&);
 
 std::ostream& operator<<(std::ostream&, const Vector3D&);
 
+//Note* Matrix class is Row Major, however OpenGL Matrix is Col Major thus
+// Matrix4D = Transpose of OpenGL Matrix
 typedef union Matrix4D
 {
   struct
@@ -111,6 +113,8 @@ typedef union Matrix4D
   Matrix4D SetRotationZ(float);
 
   Matrix4D operator*(const Matrix4D&);
+
+  //Matrix4D Transpose();
 
   //float* operator[](unsigned index);
 

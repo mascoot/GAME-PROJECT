@@ -256,6 +256,11 @@ Matrix4D Matrix4D::operator*(const Matrix4D& rhs)
   return temp;
 }
 
+//Matrix4D Matrix4D::Transpose()
+//{
+//  return Mat4D();
+//}
+
 Matrix4D Matrix4D::SetRotationX(float angle)
 {
   // [1 0            0              0]
@@ -303,17 +308,17 @@ Matrix4D GetLookAt(const Vector3D& eye, const Vector3D& center, const Vector3D& 
   Vector3D u(s.Cross(f));
 
   Matrix4D LookAt;
-  LookAt.m[0][0] = s.x;
-  LookAt.m[1][0] = s.y;
-  LookAt.m[2][0] = s.z;
-  LookAt.m[0][1] = u.x;
-  LookAt.m[1][1] = u.y;
-  LookAt.m[2][1] = u.z;
-  LookAt.m[0][2] = -f.x;
-  LookAt.m[1][2] = -f.y;
-  LookAt.m[2][2] = -f.z;
-  LookAt.m[3][0] = -s.Dot(eye);
-  LookAt.m[3][1] = -u.Dot(eye);
-  LookAt.m[3][2] = f.Dot(eye);
+  LookAt.m00 = s.x;
+  LookAt.m10 = s.y;
+  LookAt.m20 = s.z;
+  LookAt.m01 = u.x;
+  LookAt.m11 = u.y;
+  LookAt.m21 = u.z;
+  LookAt.m02 = -f.x;
+  LookAt.m12 = -f.y;
+  LookAt.m22 = -f.z;
+  LookAt.m30 = -s.Dot(eye);
+  LookAt.m31 = -u.Dot(eye);
+  LookAt.m32 = f.Dot(eye);
   return LookAt;
 }
