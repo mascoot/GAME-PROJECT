@@ -52,6 +52,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
   MSG   msg;       // message
   InputManager inputman;
+  GameEngine engine;
 
   // main message loop
   while (!isDone)
@@ -66,7 +67,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         DispatchMessage(&msg);
       }
     }
-    GameEngine engine;
     // don't update the scene if the app is minimized
     if (!minimized)
     {
@@ -74,7 +74,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
       //Check for keyboard input
       if (inputman.KeyPressed(VK_ESCAPE)) isDone = true;
 
+      glClearColor(0, 0, 0, 1); // black
+      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
       engine.Render();
+
       // switch the front and back buffers to display the updated scene faster
       SwapBuffers(glWrap.GetDeviceContext());
     }

@@ -113,7 +113,7 @@ typedef union Matrix4D
   Matrix4D SetRotationZ(float);
 
   Matrix4D operator*(const Matrix4D&);
-
+  Matrix4D& operator=(const Matrix4D&);
   //Matrix4D Transpose();
 
   //float* operator[](unsigned index);
@@ -123,21 +123,4 @@ typedef union Matrix4D
 
 } Mat4D;
 
-template <typename T>
-Matrix4D GetPerspective(const T& verticalFov, const T& aspect, const T& zNear, const T& zFar)
-{
-  T const rad = verticalFov;
-
-  T tanHalfVerticalFov = tan(rad / static_cast<T>(2));
-
-  Matrix4D Perspective;
-  Perspective.m[0][0] = static_cast<T>(1) / (aspect * tanHalfVerticalFov);
-  Perspective.m[1][1] = static_cast<T>(1) / (tanHalfVerticalFov);
-  Perspective.m[2][2] = -(zFar + zNear) / (zNear - zFar);
-  Perspective.m[2][3] = -static_cast<T>(1);
-  Perspective.m[3][3] = -(static_cast<T>(2) * zFar * zNear) / (zNear - zFar);
-  return Perspective;
-}
-
-Matrix4D GetLookAt(const Vector3D& eye, const Vector3D& center, const Vector3D& up);
 #endif

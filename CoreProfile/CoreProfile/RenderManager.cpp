@@ -34,6 +34,8 @@ RenderManager::RenderManager()
 
 void RenderManager::LoadShaders()
 {
+  cam.SetPerspective(DEG2RAD(60.0f), 1280.0f / 720.0f, 0.001f, 10000.0f);
+
   std::vector<Shader> shaders;
   shaders.reserve(2);
   shaders.push_back(Shader::LoadShader("./shaders/shader.vs", GL_VERTEX_SHADER));
@@ -43,15 +45,8 @@ void RenderManager::LoadShaders()
   gProgram->BindShader();
 
   //Constant Matrix unless there is a change in camera FOV
-  Mat4D projectionMat = GetPerspective(DEG2RAD(60.0f), 1280.0f / 720.0f, 0.001f, 10000.0f);
-  gProgram->SetUniform("projection", projectionMat);
-
-  Mat4D cameraMat = GetLookAt(Vec3(5,5,5), Vec3(0, 0, 0), Vec3(0, 1, 0));
-  gProgram->SetUniform("camera", cameraMat);
-
-  Mat4D modelMat;
-  gProgram->SetUniform("model", modelMat);
-
+  gProgram->SetUniform("projection", cam.GetPerspMatrix());
+  
   gProgram->UnbindShader();
 }
 
@@ -74,9 +69,22 @@ void RenderManager::Update()
 	/*  Enabling anti-aliasing */
 	glEnable(GL_MULTISAMPLE);
 
+  static float angle = 0;
+  
+  //This just rotates the camera around the origin
+  cam.SetPosition(sin(angle) * 5, 0, cos(angle) * 5);
+  cam.LookAt(Vec3(0, 0, 0));
+  
+  angle += 0.01f;
+
   //for (auto elem : rComps)
   {
     gProgram->BindShader();
+
+    gProgram->SetUniform("camera", cam.GetViewMatrix());
+
+    Mat4D modelMat;
+    gProgram->SetUniform("model", modelMat);
 
     //Enable Vertices
     glEnableVertexAttribArray(0);

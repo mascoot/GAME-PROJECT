@@ -5,6 +5,7 @@
 #include "gl/gl3w.h"
 #include "GLWrapper.h"
 #include "Shader.h"
+#include "Camera.h"
 
 class RenderManager
 {
@@ -16,6 +17,8 @@ class RenderManager
 
   std::vector<RenderComponent*> rComps;
   ShaderProgram *gProgram;
+
+  Camera cam;
 
   void LoadShaders();
 public:
