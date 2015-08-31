@@ -28,6 +28,7 @@ private:
   float _sCounter;
 
   TransformComponent *transform;
+  ShaderComponent *shader;
   Vector3D _dir, _up;
 
   Matrix4D _pMatrix;

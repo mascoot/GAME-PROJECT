@@ -2,35 +2,95 @@
 #define BASE_COMP_H
 
 #include <vector>
+#include <list>
 #include <algorithm>
 #include "MathExt.h"
 
-struct IComponent
+class TransformComponent;
+class RenderComponent;
+class ShaderComponent;
+
+class ICompManager
 {
-  unsigned ID;
+public:
+  static ICompManager* Inst();
+
+  void AddTransfCmp(TransformComponent*);
+  void AddRenderCmp(RenderComponent*);
+  void AddShaderCmp(ShaderComponent*);
+
+private:
+  static ICompManager* m_inst;
+
+  std::list<TransformComponent*> tComps;
+  std::list<RenderComponent*> rComps;
+  std::list<ShaderComponent*> sComps;
 };
 
-struct RenderComponent : public IComponent
+class IComponent
 {
-  unsigned int type;
-  int shaderID;
+public:
+	unsigned GetID() const;
+	IComponent();
+private:
+	static unsigned m_Counter;
+	unsigned m_ID;
 
-  //std::vector<std::string> textures;
-  //std::vector<std::string> shaders;
-
-  //void BindShader(std::string name);
-  //void UnBindShader(std::string name);
 };
 
-struct TransformComponent : public IComponent
+class RenderComponent : public IComponent
 {
-  //Vec3 position;
-  //X , Y , Depth
-  Vec3 position;
-  Vec2 scale;
+public:
+	//Initialize Component with Texture
+	RenderComponent(const std::string&);
+	//Initialize Component with Color
+	RenderComponent();
+	RenderComponent(const Vector3D&);
+	RenderComponent(float, float, float);
 
-  float rotation;
-  //float Depth
+	//Load Texture Manually
+	int LoadTexture(const std::string&);
+	//Set Color Override Manually
+	void SetColor(const Vector3D&);
+
+	int GetTextureID() const;
+	Vector3D& GetColor();
+
+private:
+	int m_TextureID;
+	Vector3D m_Color;
+};
+
+class ShaderComponent : public IComponent
+{
+  int GetShaderID();
+  bool LoadShader(const std::string&);
+
+private:
+  int m_shaderID;
+  
+};
+
+class TransformComponent : public IComponent
+{
+public:
+  TransformComponent();
+
+  void SetPosition(const Vector3D&);
+  void SetPosition(float, float, float);
+  void SetRotation(const Vector3D&);
+  void SetRotation(float, float, float);
+  void SetSize(float, float);
+
+  Vector3D GetPosition();
+  Vector3D GetRotation();
+  Vector2D GetScale();
+
+private:
+	Vec3 m_position;
+  Vec3 m_rotation;
+  Vec2 m_scale;
+
 };
 
 #endif

@@ -85,12 +85,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GLWrapper.cpp" />
     <ClCompile Include="KeyBinder.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MathExt.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="BaseComponents.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseComponents.h" />

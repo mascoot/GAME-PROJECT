@@ -3,16 +3,21 @@
 
 #include "BaseComponents.h"
 
-class GameObject
+class BaseObject
+{
+	virtual void Update() = 0;
+};
+
+class TestObject : public BaseObject
 {
 public:
   TransformComponent *transform = nullptr;
   RenderComponent *renderer = nullptr;
 
-  GameObject();
-  virtual ~GameObject();
+  TestObject();
+  ~TestObject();
 
-  virtual void Update(){}
+  void Update();
 };
 
 #endif
