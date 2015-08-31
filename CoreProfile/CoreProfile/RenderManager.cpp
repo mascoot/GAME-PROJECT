@@ -30,6 +30,8 @@ RenderManager::RenderManager()
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
 
   LoadShaders();
+
+  rComps.push_back(new BaseObject());
 }
 
 void RenderManager::LoadShaders()
@@ -52,6 +54,11 @@ void RenderManager::LoadShaders()
 
 RenderManager::~RenderManager()
 {
+  for (auto& elem : rComps)
+   delete elem;
+
+  delete gProgram;
+
   glDeleteBuffers(1, &vertexbuffer);
   glDeleteBuffers(1, &uvbuffer);
   glDeleteBuffers(1, &indicesbuffer);
@@ -62,6 +69,7 @@ void RenderManager::Update()
 	/*  Filling the triangles */
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
+  glEnable(GL_BLEND_DST_ALPHA);
 	/*  Culling back-facing triangles for efficiency, but no back faces now */
 	//glEnable(GL_CULL_FACE);
 	//glCullFace(GL_BACK);
@@ -72,21 +80,29 @@ void RenderManager::Update()
   static float angle = 0;
   
   //This just rotates the camera around the origin
-  cam.SetPosition(sin(angle) * 5, 0, cos(angle) * 5);
+  //cam.SetPosition(sin(angle) * 5, 0, cos(angle) * 5);
+  cam.SetPosition(0, 0, 10);
   cam.LookAt(Vec3(0, 0, 0));
   
-  angle += 0.01f;
+  angle += 0.1f;
 
   for (auto elem : rComps)
   {
+    iTRANSFORM(elem->tID).SetRotation(angle,angle,angle);
+
     gProgram->BindShader();
 
     gProgram->SetUniform("camera", cam.GetViewMatrix());
-
-    Mat4D modelMat;
-
-    gProgram->SetUniform("model", modelMat);
-    gProgram->SetUniform("my4Color",Vec4(1, 1, 0, 1));
+    gProgram->SetUniform("color",iRENDER(elem->rID).GetColor());
+    Mat4D t,r,s;
+    t = t.SetTranslate(iTRANSFORM(elem->tID).GetPosition());
+    r = r.SetRotationZ((iTRANSFORM(elem->tID).GetRotation()).z);
+    s = s.SetScale(Vec3(iTRANSFORM(elem->tID).GetScale(), 1.0f));
+    gProgram->SetUniform("translate", t);
+    gProgram->SetUniform("rotate", r);
+    gProgram->SetUniform("scale", s);
+    //Mat4D m = t * r * s;
+    //gProgram->SetUniform("model", m);
 
     //Enable Vertices
     glEnableVertexAttribArray(0);
@@ -129,6 +145,7 @@ void RenderManager::Update()
     gProgram->UnbindShader();
   }
 
+  glDisable(GL_BLEND_DST_ALPHA);
   glDisable(GL_MULTISAMPLE);
   glDisable(GL_CULL_FACE);
 }

@@ -15,27 +15,46 @@ class ICompManager
 public:
   static ICompManager* Inst();
 
-  void AddTransfCmp(TransformComponent*);
-  void AddRenderCmp(RenderComponent*);
-  void AddShaderCmp(ShaderComponent*);
+  unsigned AddTransfCmp();
+  unsigned AddRenderCmp();
+  unsigned AddShaderCmp();
+
+  TransformComponent& GetTransfCmp(unsigned);
+  RenderComponent& GetRenderCmp(unsigned);
+  ShaderComponent& GetShaderCmp(unsigned);
+
+  std::vector<TransformComponent>* GetTransformList()
+  { return &tComps; }
+
+  std::vector<RenderComponent>* GetRenderList()
+  { return &rComps; }
+
+  std::vector<ShaderComponent>* GetShaderList()
+  { return &sComps; }
 
 private:
   static ICompManager* m_inst;
 
-  std::list<TransformComponent*> tComps;
-  std::list<RenderComponent*> rComps;
-  std::list<ShaderComponent*> sComps;
+  std::vector<TransformComponent> tComps;
+  std::vector<RenderComponent> rComps;
+  std::vector<ShaderComponent> sComps;
 };
+
+#define iTRANSFORM(x) ICompManager::Inst()->GetTransfCmp(x)
+#define iRENDER(x) ICompManager::Inst()->GetRenderCmp(x)
+#define iSHADER(x) ICompManager::Inst()->GetShaderCmp(x)
 
 class IComponent
 {
 public:
+  void SetID(unsigned);
 	unsigned GetID() const;
+  void SetActive(bool);
+  bool IsActive() const;
 	IComponent();
 private:
-	static unsigned m_Counter;
 	unsigned m_ID;
-
+  bool m_isActive;
 };
 
 class RenderComponent : public IComponent
@@ -45,20 +64,21 @@ public:
 	RenderComponent(const std::string&);
 	//Initialize Component with Color
 	RenderComponent();
-	RenderComponent(const Vector3D&);
+	RenderComponent(const Vector4D&);
 	RenderComponent(float, float, float);
 
 	//Load Texture Manually
 	int LoadTexture(const std::string&);
 	//Set Color Override Manually
-	void SetColor(const Vector3D&);
+  void SetColor(float, float, float,float);
+	void SetColor(const Vector4D&);
 
 	int GetTextureID() const;
-	Vector3D& GetColor();
+	Vector4D& GetColor();
 
 private:
 	int m_TextureID;
-	Vector3D m_Color;
+	Vector4D m_Color;
 };
 
 class ShaderComponent : public IComponent
@@ -80,7 +100,7 @@ public:
   void SetPosition(float, float, float);
   void SetRotation(const Vector3D&);
   void SetRotation(float, float, float);
-  void SetSize(float, float);
+  void SetScale(float, float);
 
   Vector3D GetPosition();
   Vector3D GetRotation();

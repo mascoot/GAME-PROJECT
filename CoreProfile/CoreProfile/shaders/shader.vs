@@ -3,6 +3,7 @@
 uniform mat4 projection;
 uniform mat4 camera;
 uniform mat4 model;
+uniform mat4 translate, rotate, scale;
 
 in vec3 vert;
 in vec2 vertTexCoord;
@@ -14,5 +15,5 @@ void main() {
     fragTexCoord = vertTexCoord;
     
     // Apply all matrix transformations to vert
-    gl_Position = projection * camera * model * vec4(vert, 1);
+    gl_Position = projection * camera * translate * rotate * scale * vec4(vert, 1);
 }

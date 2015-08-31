@@ -343,8 +343,10 @@ Matrix4D Matrix4D::operator*(const Matrix4D& rhs)
     float sum = 0;
     int t = x % 4;
     for (int y = 0; y < 4; ++y)
-      sum += m[x - t][y] * rhs.m[y][t];
-    temp.m[(x - t) / 4][t] = sum;
+    {
+      sum += m[(int)(x*0.25f)][y] * rhs.m[y][t];
+    }
+    temp.m[t][x-(t*4)] = sum;
   }
   return temp;
 }

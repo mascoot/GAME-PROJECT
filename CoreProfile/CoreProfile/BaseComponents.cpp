@@ -3,39 +3,57 @@
 //-------------------------------------------------------------
 // COMPONENT MANAGER
 //-------------------------------------------------------------
-ICompManager* ICompManager::m_inst = nullptr;
-ICompManager* ICompManager::Inst()
+ICompManager* ICompManager::m_inst = new ICompManager();
+
+ICompManager* ICompManager::Inst() { return m_inst; }
+
+unsigned ICompManager::AddTransfCmp()
 {
-  if (!m_inst) m_inst = new ICompManager();
-  return m_inst;
+  tComps.push_back(TransformComponent());
+  return tComps.size() - 1;
 }
 
-void ICompManager::AddTransfCmp(TransformComponent* cmp)
+unsigned ICompManager::AddRenderCmp()
 {
-  tComps.push_back(cmp);
+  rComps.push_back(RenderComponent());
+  return rComps.size() - 1;
 }
 
-void ICompManager::AddRenderCmp(RenderComponent* cmp)
+unsigned ICompManager::AddShaderCmp()
 {
-  rComps.push_back(cmp);
+  sComps.push_back(ShaderComponent());
+  return sComps.size() - 1;
 }
 
-void ICompManager::AddShaderCmp(ShaderComponent* cmp)
+TransformComponent& ICompManager::GetTransfCmp(unsigned index)
 {
-  sComps.push_back(cmp);
+  return tComps[index];
 }
 
+RenderComponent& ICompManager::GetRenderCmp(unsigned index)
+{
+  return rComps[index];
+}
+
+ShaderComponent& ICompManager::GetShaderCmp(unsigned index)
+{
+  return sComps[index];
+}
 
 //-------------------------------------------------------------
 //-------------------------------------------------------------
 // COMPONENT
 //-------------------------------------------------------------
 
-unsigned IComponent::m_Counter = 0;
+IComponent::IComponent() : m_ID(0){}
 
-IComponent::IComponent() : m_ID(m_Counter++){}
+void IComponent::SetID(unsigned id){ m_ID = id; }
 
 unsigned IComponent::GetID() const { return m_ID; }
+
+void IComponent::SetActive(bool a) { m_isActive = a; }
+
+bool IComponent::IsActive() const { return m_isActive; }
 
 //-------------------------------------------------------------
 //-------------------------------------------------------------
@@ -43,16 +61,16 @@ unsigned IComponent::GetID() const { return m_ID; }
 //-------------------------------------------------------------
 
 RenderComponent::RenderComponent(const std::string& texturename) : m_TextureID(LoadTexture(texturename))
-{ SetColor(Vec3(1, 1, 1)); }
+{ SetColor(Vec4(1, 1, 1, 1)); }
 
 RenderComponent::RenderComponent() : m_TextureID(-1)
-{ SetColor(Vec3(1,1,1)); }
+{ SetColor(Vec4(1, 1, 1, 1)); }
 
-RenderComponent::RenderComponent(const Vector3D& col) : m_TextureID(-1)
+RenderComponent::RenderComponent(const Vector4D& col) : m_TextureID(-1)
 { SetColor(col); }
 
 RenderComponent::RenderComponent(float r, float g, float b) : m_TextureID(-1)
-{ SetColor(Vec3(r, g, b)); }
+{ SetColor(Vec4(r, g, b,1.0f)); }
 
 //Load Texture Manually
 int RenderComponent::LoadTexture(const std::string& texturename)
@@ -61,21 +79,25 @@ int RenderComponent::LoadTexture(const std::string& texturename)
 	return -1;
 }
 
-void RenderComponent::SetColor(const Vector3D& col)
+void RenderComponent::SetColor(float r, float g, float b,float a)
+{
+  SetColor(Vec4(r, g, b, a));
+}
+
+void RenderComponent::SetColor(const Vector4D& col)
 {
 	m_Color = col;
 }
 
 int RenderComponent::GetTextureID() const { return m_TextureID; }
 
-Vector3D& RenderComponent::GetColor() { return m_Color; }
+Vector4D& RenderComponent::GetColor() { return m_Color; }
 
 //-------------------------------------------------------------
 //-------------------------------------------------------------
 // TRANSFORM COMPONENT
 //-------------------------------------------------------------
-TransformComponent::TransformComponent() : m_scale(Vec2(1,1))
-{}
+TransformComponent::TransformComponent() : m_scale(Vec2(1,1)){}
 
 void TransformComponent::SetPosition(const Vector3D& pos)
 {
@@ -97,7 +119,7 @@ void TransformComponent::SetRotation(float x, float y, float z)
   SetRotation(Vec3(x, y, z));
 }
 
-void TransformComponent::SetSize(float x, float y)
+void TransformComponent::SetScale(float x, float y)
 {
   m_scale.x = x; m_scale.y = y;
 }

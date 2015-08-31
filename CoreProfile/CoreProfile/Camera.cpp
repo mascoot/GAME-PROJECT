@@ -1,7 +1,8 @@
 #include "Camera.h"
 
-Camera::Camera() : transform(new TransformComponent())
+Camera::Camera()
 {
+  tID = ICompManager::Inst()->AddTransfCmp();
   _dir = Vec3();
   _up = Vec3(0, 1, 0);
 }
@@ -11,7 +12,7 @@ Matrix4D& Camera::GetViewMatrix(){ return _vMatrix; }
 
 void Camera::SetPosition(float x, float y, float z)
 {
-  transform->SetPosition(x, y, z);
+  iTRANSFORM(tID).SetPosition(x, y, z);
 }
 
 void Camera::SetPerspective(float fov, float aspect, float zNear, float zFar)
@@ -27,7 +28,8 @@ void Camera::SetPerspective(float fov, float aspect, float zNear, float zFar)
 
 void Camera::LookAt(const Vector3D& target)
 {
-  _dir = (Vector3D(target) - transform->GetPosition()).Normalize();
+  TransformComponent& t = iTRANSFORM(tID);
+  _dir = (Vector3D(target) - t.GetPosition()).Normalize();
   Vector3D right((_dir.Cross(_up)).Normalize());
   _up = (right.Cross(_dir));
 
@@ -40,7 +42,7 @@ void Camera::LookAt(const Vector3D& target)
   _vMatrix.m02 = -_dir.x;
   _vMatrix.m12 = -_dir.y;
   _vMatrix.m22 = -_dir.z;
-  _vMatrix.m30 = -right.Dot(transform->GetPosition());
-  _vMatrix.m31 = -_up.Dot(transform->GetPosition());
-  _vMatrix.m32 = _dir.Dot(transform->GetPosition());
+  _vMatrix.m30 = -right.Dot(t.GetPosition());
+  _vMatrix.m31 = -_up.Dot(t.GetPosition());
+  _vMatrix.m32 = _dir.Dot(t.GetPosition());
 }

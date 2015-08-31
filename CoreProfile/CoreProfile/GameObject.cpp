@@ -1,12 +1,15 @@
 #include "GameObject.h"
 
-TestObject::TestObject() : transform(new TransformComponent()),
-renderer(new RenderComponent())
+BaseObject::BaseObject()
 {
-  transform->SetSize(2, 1);
+  tID = ICompManager::Inst()->AddTransfCmp();
+  ICompManager::Inst()->GetTransfCmp(tID).SetScale(2, 1);
+
+  rID = ICompManager::Inst()->AddRenderCmp();
+  ICompManager::Inst()->GetRenderCmp(rID).SetColor(1,0.4,0,0.5);
 }
 
-void TestObject::Update()
+void BaseObject::Update()
 {
 
 }

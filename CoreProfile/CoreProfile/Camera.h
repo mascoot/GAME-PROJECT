@@ -27,8 +27,7 @@ private:
   bool _isDirty;
   float _sCounter;
 
-  TransformComponent *transform;
-  ShaderComponent *shader;
+  unsigned tID;
   Vector3D _dir, _up;
 
   Matrix4D _pMatrix;

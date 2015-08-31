@@ -3,19 +3,18 @@
 
 #include "BaseComponents.h"
 
-class BaseObject
+class vObject
 {
 	virtual void Update() = 0;
 };
 
-class TestObject : public BaseObject
+class BaseObject : public vObject
 {
 public:
-  TransformComponent *transform = nullptr;
-  RenderComponent *renderer = nullptr;
+  unsigned tID;
+  unsigned rID;
 
-  TestObject();
-  ~TestObject();
+  BaseObject();
 
   void Update();
 };

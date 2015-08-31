@@ -12,12 +12,11 @@ class RenderManager
   GLuint vertexbuffer;  // This will identify our vertex buffer
   GLuint indicesbuffer;
   GLuint uvbuffer;
-
   std::vector<unsigned int> indices;
 
-  std::vector<RenderComponent*> rComps;
-  ShaderProgram *gProgram;
+  std::vector<BaseObject*> rComps;
 
+  ShaderProgram *gProgram;
   Camera cam;
 
   void LoadShaders();
