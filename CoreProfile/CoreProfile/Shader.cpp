@@ -178,12 +178,17 @@ void ShaderProgram::SetAttrib(const GLchar* name, const Vector3D& v)
 
 void ShaderProgram::SetUniform(const GLchar* name, const Vector2D& v)
 {
-  glUniform2fv(GetUniform(name), 2, v.m);
+  glUniform2f(GetUniform(name), v.x, v.y);
 }
 
 void ShaderProgram::SetUniform(const GLchar* name, const Vector3D& v)
 {
-  glUniform3fv(GetUniform(name), 3, v.m);
+  glUniform3f(GetUniform(name), v.x, v.y, v.z);
+}
+
+void ShaderProgram::SetUniform(const GLchar* name, const Vector4D& v)
+{
+  glUniform4f(GetUniform(name), v.x, v.y, v.z, v.w);
 }
 
 void ShaderProgram::SetUniform(const GLchar* name, const Matrix4D& mat4, GLboolean transpose)

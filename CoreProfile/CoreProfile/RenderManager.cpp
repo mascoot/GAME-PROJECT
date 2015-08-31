@@ -77,14 +77,16 @@ void RenderManager::Update()
   
   angle += 0.01f;
 
-  //for (auto elem : rComps)
+  for (auto elem : rComps)
   {
     gProgram->BindShader();
 
     gProgram->SetUniform("camera", cam.GetViewMatrix());
 
     Mat4D modelMat;
+
     gProgram->SetUniform("model", modelMat);
+    gProgram->SetUniform("my4Color",Vec4(1, 1, 0, 1));
 
     //Enable Vertices
     glEnableVertexAttribArray(0);

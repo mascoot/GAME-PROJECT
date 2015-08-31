@@ -45,6 +45,7 @@ public:
 
   void SetUniform(const GLchar*, const Vector2D&);
   void SetUniform(const GLchar*, const Vector3D&);
+  void SetUniform(const GLchar*, const Vector4D&);
   void SetUniform(const GLchar*, const Matrix4D&, GLboolean = GL_FALSE);
 
 private:

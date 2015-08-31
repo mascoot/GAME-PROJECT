@@ -198,6 +198,99 @@ std::ostream& operator<<(std::ostream& os, const Vector3D& rhs)
   return os;
 }
 
+//Default Constructor
+Vector4D::Vector4D() : x(0), y(0), z(0), w(0) {}
+
+//Conversion Constructor
+Vector4D::Vector4D(float X, float Y, float Z, float W) : x(X), y(Y), z(Z), w(W) {}
+
+//Copy Constructor
+Vector4D::Vector4D(const Vector4D& rhs) : x(rhs.x), y(rhs.y), z(rhs.z), w(rhs.w) {}
+
+Vector4D::Vector4D(const Vector3D& rhs, float W) : x(rhs.x), y(rhs.y), z(rhs.z), w(W){}
+
+//Vector4D& Vector4D::operator= (const Vector4D& rhs)
+//{
+//  x = rhs.x; y = rhs.y; z = rhs.z; w = rhs.w;
+//  return *this;
+//}
+
+Vector4D Vector4D::operator+(const Vector4D& rhs) const
+{
+  return Vector4D(x + rhs.x, y + rhs.y, z + rhs.z, w + rhs.w);
+}
+
+Vector4D Vector4D::operator-(const Vector4D& rhs) const
+{
+  return Vector4D(x - rhs.x, y - rhs.y, x - rhs.z, w - rhs.w);
+}
+
+Vector4D Vector4D::operator/(float rhs) const
+{
+  return Vector4D(x / rhs, y / rhs, z / rhs, w / rhs);
+}
+
+Vector4D& Vector4D::operator+=(const Vector4D& rhs)
+{
+  x += rhs.x; y += rhs.y; z += rhs.z; w += rhs.w;
+  return *this;
+}
+
+Vector4D& Vector4D::operator-=(const Vector4D& rhs)
+{
+  x -= rhs.x; y -= rhs.y; z -= rhs.z; w -= rhs.w;
+  return *this;
+}
+
+Vector4D& Vector4D::operator/=(float rhs)
+{
+  x /= rhs; y /= rhs; z /= rhs; w /= rhs;
+  return *this;
+}
+
+Vector4D& Vector4D::operator*=(float rhs)
+{
+  x *= rhs; y *= rhs; z *= rhs; w *= rhs;
+  return *this;
+}
+
+Vector4D Vector4D::Normalize() const
+{
+  float mag = Magnitude();
+  return Vector4D(x / mag, y / mag, z / mag, w / mag);
+}
+
+float Vector4D::Magnitude() const
+{
+  return sqrt(MagnitudeSq());
+}
+
+float Vector4D::MagnitudeSq() const
+{
+  return x*x + y*y + z*z + w*w;
+}
+
+//Returns the length of the projected vector
+float Vector4D::Dot(const Vector4D& rhs) const
+{
+  return x*rhs.x + y*rhs.y + z*rhs.z + w*rhs.w;
+}
+
+Vector4D operator*(const Vector4D& lhs, float rhs)
+{
+  return Vector4D(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs, lhs.w * rhs);
+}
+
+Vector4D operator*(float lhs, const Vector4D& rhs)
+{
+  return Vector4D(rhs.x * lhs, rhs.y * lhs, rhs.z * lhs, rhs.w * lhs);
+}
+
+std::ostream& operator<<(std::ostream& os, const Vector4D& rhs)
+{
+  os << "< " << rhs.x << " : " << rhs.y << " : " << rhs.z << " : " << rhs.w << " >";
+  return os;
+}
 
 Matrix4D::Matrix4D()
 {
